@@ -41,9 +41,9 @@ module Slappy
     end
 
     def respond(pattern, options = {}, &block)
-      bot_name = options[:bot_name] || config.robot.botname || config.robot.username
-
-      pattern = "^#{bot_name}[[:blank:]]#{pattern}"
+      fail 'Required bot_id when use #respond' if config.robot.bot_id.blank?
+      message_bot_id = "<@#{config.robot.bot_id}>"
+      pattern = "^(?=.*#{message_bot_id})(?=.*#{pattern})"
       register_callback(:respond, :message, Listener::TextListener.new(pattern, options, &block))
     end
 
