@@ -35,6 +35,11 @@ module Slappy
       Messenger.new(options).message
     end
 
+    def reply_to(user, text, options = {})
+      text = "#{user.name} #{text}"
+      reply(text, options)
+    end
+
     def reaction(emoji)
       result = ::Slack.reactions_add name: emoji, channel: @data['channel'], timestamp: @data['ts']
       Debug.log "Reaction response: #{result}"
